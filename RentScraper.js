@@ -41,7 +41,7 @@ function fetchRedditeData() {
     var postData = [];
     var existingData = [];
   
-    var sheetId = '1rlPjAUDYcvMATW8yi4FFg2voHv34c2kVITsHkfEfLkw';
+    var sheetId = ''; // sheet ID here
     var sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
     var lastRow = sheet.getLastRow();
     if (lastRow > 0) {
@@ -51,6 +51,7 @@ function fetchRedditeData() {
     for (var i = 0; i < posts.length; i++) {
       var post = posts[i].data;
       var postPermalink = 'www.reddit.com' + post.permalink;
+      // filter posts here
       if (!existingData.includes(postPermalink) && (post.title.toLowerCase().includes('rent') )) {
         Logger.log(post.title.toLowerCase())
         var date = new Date(post.created_utc * 1000);
@@ -73,7 +74,7 @@ function fetchRedditeData() {
       range.setValues(postData);
       // Extract post titles to include in the email
       var postTitles = postData.map(function(post) {
-        return post[0]; // Assuming the title is the first element in the post data array
+        return post[0]; 
       });
       Logger.log('New data appended to sheet. Title: ', postTitles);
       sendEmailNotification(postData.length + ' new post(s)', postTitles);
